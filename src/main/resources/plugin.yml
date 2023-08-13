@@ -1,0 +1,5 @@
+name: CoreProtectClean
+version: '${version}'
+main: org.skydom.server.chosen.coreprotectclean.CoreProtectClean
+api-version: '1.20'
+author: Chosen_1st

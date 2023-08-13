@@ -1,0 +1,31 @@
+#可选的清理的项目(部分清理掉会造成不可逆伤害)
+#可清理 √ 不可清理 ×
+#  art_map
+#√  block 方块操作数据
+#√  chat 聊天数据
+#√  command 指令数据
+#√  container 容器数据
+#  entity
+#  entity_map
+#  material_map
+#  session
+#  sign
+#  skull
+#×  user 玩家列表
+#  username_log
+#×  version 版本号
+#×  world 世界映射表
+#清理项目配置
+cleanProject:
+  - 'sign'
+  - 'block'
+  - 'skull'
+  - 'container'
+  - 'command'
+  - 'session'
+  - 'entity'
+  - 'chat'
+#清理多少天前
+day: 7
+#定时检查周期(小时)
+period: 24
