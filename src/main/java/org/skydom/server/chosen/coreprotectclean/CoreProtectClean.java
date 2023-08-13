@@ -13,9 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public final class CoreProtectClean extends JavaPlugin {
+public class CoreProtectClean extends JavaPlugin {
     private String prefix;
-    private FileConfiguration config;
     private List<String> cleanProjects;
     private int cleanDay = 7;
     private int period = 24;
@@ -23,7 +22,7 @@ public final class CoreProtectClean extends JavaPlugin {
     @Override
     public void onEnable() {
         getPrefix();
-        config = loadYamlFile("config.yml");
+        FileConfiguration config = loadYamlFile();
         cleanProjects = config.getStringList("cleanProject");
         cleanDay = config.getInt("day");
         period = config.getInt("period");
@@ -44,7 +43,7 @@ public final class CoreProtectClean extends JavaPlugin {
             }
             closeConnection(conn);
             getLogger().info("完成了一次清理任务");
-        }, 20L, period * 20 * 60 * 60);
+        }, 20L, (long) period * 20 * 60 * 60);
     }
 
     private void getPrefix() {
@@ -73,7 +72,7 @@ public final class CoreProtectClean extends JavaPlugin {
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(String.format("delete from %s where time<?", prefix + name));
-            ps.setLong(1, System.currentTimeMillis() / 1000 - cleanDay * 24 * 60 * 60);
+            ps.setLong(1, System.currentTimeMillis() / 1000 - (long) cleanDay * 24 * 60 * 60);
             return ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,10 +104,10 @@ public final class CoreProtectClean extends JavaPlugin {
         }
     }
 
-    private FileConfiguration loadYamlFile(String path) {
-        File file = new File(getDataFolder(), path);
+    private FileConfiguration loadYamlFile() {
+        File file = new File(getDataFolder(), "config.yml");
         if (!file.exists())
-            saveResource(path, false);
+            saveResource("config.yml", false);
         return YamlConfiguration.loadConfiguration(file);
     }
 
